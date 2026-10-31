@@ -1,0 +1,7 @@
+$("#sb").onclick=async()=>{const o=$("#sres");if(!db)return needDb(o);const id=$("#sid").value.trim().toUpperCase(),w=$("#sw").value.replace(/\D/g,"");if(!id||!w){o.innerHTML='<div class="warn">Isi ID dan nomor WhatsApp.</div>';return}
+ o.innerHTML='<p class="big"><span class="sp"></span></p>';let d;try{const s=await db.collection("applicants").doc(id).get();d=s.exists?s.data():null}catch(e){d=null}
+ if(!d||d.whatsapp!==w){o.innerHTML='<div class="warn">ID tidak ditemukan atau verifikasi tidak cocok.</div>';return}
+ const c='<a class="btn" target="_blank" rel="noopener" href="https://wa.me/'+ADMINS[0][1]+'">CONTACT ADMIN</a>';
+ if(d.status==="APPROVED"){document.body.className="ok";sfx("success");o.innerHTML=`<div class="big"><div class="i">✅</div><h2>YOU ARE ACCEPTED!</h2><p>Selamat! Kamu dinyatakan LOLOS seleksi staff Sonyaa Everett.<br><br>Segera hubungi admin untuk melakukan konfirmasi dan proses selanjutnya.</p>${c}</div>`}
+ else if(d.status==="REJECTED"){document.body.className="no";sfx("fail");o.innerHTML=`<div class="big"><div class="i">❌</div><h2>APPLICATION REJECTED</h2><p>Terima kasih telah mengikuti seleksi staff Sonyaa Everett.<br><br>Mohon maaf, pendaftaran kamu belum berhasil pada tahap seleksi kali ini. Tetap semangat dan terima kasih atas partisipasimu.</p>${c}</div>`}
+ else o.innerHTML=`<div class="big"><div class="i">⏳</div><h2 style="color:#eab308">APPLICATION PENDING</h2><p>Pendaftaran kamu sedang ditinjau oleh tim Sonyaa Everett. Silakan periksa kembali nanti.</p></div>`};
